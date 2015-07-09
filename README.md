@@ -39,3 +39,11 @@ Each sketch progressively builds on the previous one, so I'd suggest moving thro
 (3) **neopixel_basic_func**: this encapsulates the code into two separate fucntions.
 
 *Changes*: try changing the function names.
+
+(3) **neopixel_brightness**: this will adjust the brightness levels of the NeoPixels. Also, we introduce the concept of the preprocessor macro and the serial monitor output. 
+
+*Try*: going to Tools->Serial Monitor to see the output of the brightness levels
+
+Also the button down will still turn off the entire strip
+
+*Changes*: try changing the delay value or the brightDirection variable
