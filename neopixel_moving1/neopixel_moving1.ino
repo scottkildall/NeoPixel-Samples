@@ -1,11 +1,12 @@
 /********************************************************************************************************
-  neopixel_bright:
+  neopixel_moving1:
   Written by Scott Kildall
   
-  This will light just a NeoPixel strip of NeoPixels
-  When the button presses, we will turn off the NeoPixel
-  During the loop phase, the NeoPixels will all adjust their brightness
-  levels lower then higher and then back to lower
+  This sketch will show three bands of solid colors on the NeoPixel strip
+  the 1st 1/3 will be 1 color, the 2nd 1/3 another, and the last 1/3 a different color
+  A switch at pin 4 will turn the whole strip off.
+  
+  A timing loop will be setup so that we cycle the colors
   
 ---------------------------------------------------------------------------------------------------------
 NeoPixel Information for initializing the strip, below
@@ -31,28 +32,35 @@ int numPixels = 60;
 // Instatiate the NeoPixel from the ibrary
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(numPixels, neoPixelPin, NEO_GRB + NEO_KHZ800);
 
-// Global RGB values, change to suit your needs
-int r = 0;
-int g = 255;
-int b = 255;
+// Color set #1
+int r1 = 255;
+int g1 = 0;
+int b1 = 0;
 
-// pin for input
+// Color set #2
+int r2 = 255;
+int g2 = 255;
+int b2 = 0;
+
+// Color set #3
+int r3 = 0;
+int g3 = 255;
+int b3 = 255;
+
+// our button
 int switchPin = 4;
 
-// variables to control brightness levels
-int brightness = 255; 
-int brightDirection = -10;
+int start1 = 0;
+int start2 = 20;
+int start3 = 40;
 
 // a pre-processor macro
-#define DELAY_TIME (10)
-
+#define DELAY_TIME (2000)
+   
 void setup() {
   strip.begin();  // initialize the strip
   strip.show();   // make sure it is visible
   strip.clear();  // Initialize all pixels to 'off'
-  
-  // initialize the serial monitor
-  Serial.begin(9600);
 }
 
 void loop() {
@@ -66,37 +74,48 @@ void loop() {
   delay(DELAY_TIME);
 }
 
-// Turns all the NeoPixels off
 void allOff() {
-  strip.clear();    // this is a simpler way to turn all the pixels off
+  strip.clear();
+   strip.show();
+}
+
+// the adjust starts function will move the starting point of the for loop to imitiate a cycling effect
+void activate() {
+   adjustStarts();
+   
+   // first 20 pixels = color set #1
+    for( int i = start1; i < start1+20; i++ ) {
+       strip.setPixelColor(i, r1, g1, b1 );
+    }
+    
+    // next 20 pixels = color set #2
+    for( int i = start2; i < start2+20 ; i++ ) {
+       strip.setPixelColor(i, r2, g2, b2 );
+    }
+    
+     // last 20 pixels = color set #3
+    for( int i = start3; i < start3+20; i++ ) {
+       strip.setPixelColor(i, r3, g3, b3 );
+    }
+      
   strip.show();
 }
 
-// the activate function will set the pixel color, change the brightness level
-// and have a small delay
-void activate() {   
-  for( int i = 0; i < numPixels; i++ ) 
-     strip.setPixelColor(i, r,g,b);
-     
-  strip.setBrightness(brightness);  
-  strip.show();
-  
-  adjustBrightness();
+// calls the incrementStart() function to move the offsets for each NeoPixel
+void adjustStarts() {
+  start1 = incrementStart(start1);
+  start2 = incrementStart(start2);
+  start3 = incrementStart(start3);
 }
 
-// function which will increment or decrement the brightness level
-void adjustBrightness() {
-  brightness = brightness + brightDirection;
-  if( brightness < 0 ) {
-     brightness = 0;
-     brightDirection = -brightDirection;
-  }
-  else if( brightness > 255 ) {
-     brightness = 255;
-     brightDirection = -brightDirection;
-  } 
-  
-  // output the serial
-  Serial.println( brightness );
+// will add 20 to the start value, resetting it to zero when we hit the max number of pixels
+int incrementStart(int startValue) {
+  startValue = startValue + 20;
+  if( startValue == 60 )
+    startValue = 0;
+    
+  return startValue;
 }
+
+
 

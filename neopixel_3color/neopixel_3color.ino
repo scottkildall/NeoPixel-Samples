@@ -1,9 +1,10 @@
 /********************************************************************************************************
-  neopixel_bright:
+  neopixel_3color:
   Written by Scott Kildall
   
-  This will light just a NeoPixel strip of NeoPixels
-  When the button presses, we will turn off the NeoPixel
+  This sketch will show three bands of solid colors on the NeoPixel strip
+  the 1st 1/3 will be 1 color, the 2nd 1/3 another, and the last 1/3 a different color
+  A switch at pin 4 will turn the whole strip off
   
 ---------------------------------------------------------------------------------------------------------
 NeoPixel Information for initializing the strip, below
@@ -44,6 +45,7 @@ int r3 = 0;
 int g3 = 255;
 int b3 = 255;
 
+// our button
 int switchPin = 4;
 
 // a pre-processor macro

@@ -48,10 +48,12 @@ Also the button down will still turn off the entire strip
 
 *Changes*: try changing the delay value or the brightDirection variable
 
-(4) **neopixel_3color**: this will adjust the brightness levels of the NeoPixels, showing how we use math functions to control timing. Also, we introduce the concept of the preprocessor macro and the serial monitor output. 
+(5) **neopixel_3color**: this will produce 3 bands of color on the NeoPixel
 
-*Try*: going to Tools->Serial Monitor to see the output of the brightness levels
+*Changes*: try changing the 3 color values. why is this code "crude" in its form. is there a better way to accomplish this?
 
-Also the button down will still turn off the entire strip
+(6) **neopixel_moving1**: this will cycle through the 3 colors
 
-*Changes*: try changing the delay value or the brightDirection variable
+*Try*: pressing the button, notice how there is a slow response — this is because we are getting locked into the delay loop
+
+*Changes*: try changing the delay time for a faster effect
