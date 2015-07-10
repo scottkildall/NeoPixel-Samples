@@ -1,12 +1,15 @@
 /********************************************************************************************************
-  neopixel_moving1:
+  neopixel_moving3:
   Written by Scott Kildall
   
   This sketch will show three bands of solid colors on the NeoPixel strip
   the 1st 1/3 will be 1 color, the 2nd 1/3 another, and the last 1/3 a different color
   A switch at pin 4 will turn the whole strip off.
   
-  A timing loop will be setup so that we cycle the colors
+  A timing loop will be setup so that we cycle the colors, this time
+  we use the millis() function to do asynchronous timing instead of hte built-in delay() function.
+  
+  Also, when the switch is pressed, we will randomize the color values.
   
 ---------------------------------------------------------------------------------------------------------
 NeoPixel Information for initializing the strip, below
@@ -56,26 +59,49 @@ int start3 = 40;
 
 // a pre-processor macro
 #define DELAY_TIME (2000)
-   
+
+// stores the start time, use unsignged long to prevent overflow
+unsigned long startTime;    
+
+// this is our flag value
+boolean bSwitchDown = false;
+
 void setup() {
-  strip.begin();  // initialize the strip
-  strip.show();   // make sure it is visible
-  strip.clear();  // Initialize all pixels to 'off'
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
+  
+  startTime = millis();
+  activate();
+  
+  // if there is no input on pin zero, this will be noise, which is a good number for seeding the random number generator
+  randomSeed(analogRead(0));
 }
 
+// go through the loop and see if the switch is pressed, the bSwitchDown will act as a flag, which we set until the switch
+// is released
 void loop() {
-  // Check to see if switch is on/off and call the proper function
-  if( digitalRead(switchPin) == true )
+  if( digitalRead(switchPin) == true ) {
+    bSwitchDown = true;
      allOff();
-  else
-     activate();
-     
-  // delay for the purposes of debouncing the switch
-  delay(DELAY_TIME);
+     startTime = 0;
+  } 
+  else {
+    if( bSwitchDown ) {
+      randomizeColors();
+      bSwitchDown = false;  
+    }
+    
+    if( startTime + DELAY_TIME < millis() ) {
+       activate();
+       startTime = millis();  
+    }
+  } 
 }
 
 void allOff() {
-  strip.clear();
+  for( int i = 0; i < numPixels; i++ ) {
+       strip.setPixelColor(i, 0, 0, 0 );
+   }
    strip.show();
 }
 
@@ -117,5 +143,20 @@ int incrementStart(int startValue) {
   return startValue;
 }
 
-
+// picks a random value between 0-255 for each of the RGB channels
+void randomizeColors() {
+  r1 = random(255);
+  g1 = random(255);
+  b1 = random(255);
+  
+  r2 = random(255);
+  g2 = random(255);
+  b2 = random(255);
+  
+  
+  r3 = random(255);
+  g3 = random(255);
+  b3 = random(255);
+  
+}
 
