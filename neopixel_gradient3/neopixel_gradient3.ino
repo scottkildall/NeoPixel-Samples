@@ -1,5 +1,5 @@
 /********************************************************************************************************
-  neopixel_gradient3:
+  neopixel_sequencer:
   Written by Scott Kildall
   
   This sketch will show an animated gradient using math to adjust the gradient levels for each pixel.
@@ -53,8 +53,6 @@ void setup() {
   
   startTime = millis();
   activate();
-  
-  Serial.begin(9600);
 }
 
 // use the button asynchonously

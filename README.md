@@ -73,3 +73,8 @@ Also the button down will still turn off the entire strip
 (11) **neopixel_gradient3**: shows an animated gradient using math to adjust the gradient levels for each pixel and uses a poteniometer to adjust the speed of the animation.
 
 *Changes*: try changing the delay time for a faster or slower animation effect
+
+(12) **neopixel_sequencer** This sketch will shows 5 different sequences and effects. A potentiometer at pin A5 will adjust the
+  speed of each animation.
+  
+*Changes*: play with it, have fun!
