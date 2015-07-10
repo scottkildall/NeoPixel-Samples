@@ -57,3 +57,9 @@ Also the button down will still turn off the entire strip
 *Try*: pressing the button, notice how there is a slow response — this is because we are getting locked into the delay loop
 
 *Changes*: try changing the delay time for a faster effect
+
+(7) **neopixel_moving2**: this will cycle through the 3 colors as above, but uses the millis() button instead of delay() to control timing, so that your button response is immediate.
+
+(8) **neopixel_moving3**: uses the random funciton, while cycling through the colors to change the RGB color values in response to the button presses.
+
+(9) **neopixel_gradient1**: uses math to make a gradient from white to pink
